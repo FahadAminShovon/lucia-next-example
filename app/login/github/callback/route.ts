@@ -23,6 +23,7 @@ export async function GET(request: Request) {
         Authorization: `Bearer ${tokens.accessToken}`,
       },
     });
+
     const githubUser: GitHubUser = await githubUserResponse.json();
 
     const existingUser = await db.user.findFirst({
@@ -82,6 +83,6 @@ export async function GET(request: Request) {
 }
 
 interface GitHubUser {
-  id: string;
+  id: number;
   login: string;
 }
