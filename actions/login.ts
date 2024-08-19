@@ -45,9 +45,16 @@ export async function login(formData: FormData) {
       error: 'Incorrect username or password',
     };
   }
+  if (!existingUser.password_hash) {
+    return {
+      error: 'Incorrect username or password',
+    };
+  }
   const validPassword = bcyrpt.compare(existingUser.password_hash, password);
   if (!validPassword) {
-    error: 'Incorrect username or password';
+    return {
+      error: 'Incorrect username or password',
+    };
   }
   const session = await lucia.createSession(existingUser.id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);

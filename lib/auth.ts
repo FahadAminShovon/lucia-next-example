@@ -4,6 +4,7 @@ import { Lucia, Session, User } from 'lucia';
 import { db as client } from './db';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
+import { GitHub } from 'arctic';
 
 const adapter = new PrismaAdapter(client.session, client.user);
 
@@ -11,6 +12,7 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       username: attributes.username,
+      githubId: attributes.github_id,
     };
   },
   sessionCookie: {
@@ -33,6 +35,7 @@ declare module 'lucia' {
 
   interface DatabaseUserAttributes {
     username: string;
+    github_id: number;
   }
 }
 
@@ -74,4 +77,9 @@ export const validateRequest = cache(
 
     return result;
   }
+);
+
+export const github = new GitHub(
+  process.env.GITHUB_CLIENT_ID!,
+  process.env.GITHUB_CLIENT_SECRET!
 );

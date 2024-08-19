@@ -13,6 +13,7 @@ export default async function Page() {
         <input type='password' name='password' id='password' />
         <br />
         <button>Continue</button>
+        <a href='/login/github'>Sign in with GitHub</a>
       </form>
     </>
   );
